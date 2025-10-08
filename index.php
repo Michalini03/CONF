@@ -1,29 +1,16 @@
 <?php
 session_start();
+require __DIR__ . '/src/Core/Router.php';
 
 $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-switch ($request) {
-    case '/CONF':
-    case '/CONF/':
-    case '/myapp/CONF/index.php':
-        require __DIR__ . '/index.php';
-        break;
+$router = new Router();
 
-    case '/CONF/login':
-        require __DIR__ . '/src/Controllers/LoginController.php';
-        break;
+// Define routes
+$router->add('/', 'Dashboard/DashboardController.php');
+$router->add('/login', 'Login/LoginController.php');
+$router->add('/dashboard', 'Dashboard/DashboardController.php');
+$router->add('/logout', 'Login/LogoutController.php');
 
-      case '/CONF/dashboard':
-            require __DIR__ . '/src/Controllers/DashboardController.php';
-            break;
-
-      case '/CONF/logout':
-            session_destroy();
-            header("Location: /CONF/login");
-            break;
-      default:
-            http_response_code(404);
-            echo "404 Not Found";
-            break;
-}
+// Dispatch
+$router->dispatch($request);
