@@ -22,7 +22,25 @@ class LoginController extends BaseController {
             $_SESSION['username'] = $username;
             return ['success' => true, 'message' => 'Login successful'];
         } else {
+            $_SESSION['user_id'] = null;
             return ['success' => false, 'message' => 'Invalid password'];
+        }
+    }
+
+    public function registerNewUser($username, $password) {
+        $id = $this->model->getUserId($username);
+        if ($id >= 0) {
+            return ['success' => false, 'message' => 'Username already taken'];
+        }
+
+        $newUserId = $this->model->createUser($username, $password);
+        if ($newUserId !== -1) {
+            $_SESSION['user_id'] = $newUserId;
+            $_SESSION['username'] = $username;
+            $_SESSION['access_rights'] = 0;
+            return ['success' => true, 'message' => 'Registration successful'];
+        } else {
+            return ['success' => false, 'message' => 'Registration failed'];
         }
     }
 }

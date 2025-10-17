@@ -6,7 +6,7 @@ function submitLogin() {
     let errors = validateLoginForm(username, password);
 
     if (errors.length > 0) {
-        handleError(errors.join(' '));
+        handleError(errors.join('\n'));
         return;
     }
 
@@ -64,4 +64,5 @@ function handleError(message) {
 function changeToLogin() {
     $('#login-form').show();
     $('#register-form').hide();
+    $('#message').removeClass('alert alert-danger alert-success').text('');
 }
