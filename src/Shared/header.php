@@ -7,9 +7,6 @@
 
     <!-- Bootstrap CSS (local) -->
     <link rel="stylesheet" href="/CONF/public/css/bootstrap.min.css">
-
-    <!-- Optional: Component or global custom CSS -->
-    <link rel="stylesheet" href="/CONF/public/css/global.css">
 </head>
 <body>
 
@@ -27,15 +24,20 @@
     <!-- Right-aligned links -->
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <?php // if(isset($_SESSION['user'])): ?>
+        <?php  if($_SESSION['user_id'] > 2): ?>
           <li class="nav-item">
-            <a class="nav-link" href="/CONF/logout">Logout</a>
+            <a class="nav-link" href="/CONF/admin">Admin Panel</a>
           </li>
-        <?php // else: ?>
+        <?php  endif; ?>
+        <?php  if(isset($_SESSION['user_id'])): ?>
+          <li class="nav-item">
+            <a class="nav-link" href="/CONF/public/logout.php">Logout</a>
+          </li>
+        <?php  else: ?>
           <li class="nav-item">
             <a class="nav-link" href="/CONF/login">Login</a>
           </li>
-        <?php // endif; ?>
+        <?php  endif; ?>
       </ul>
     </div>
   </div>

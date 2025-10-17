@@ -1,0 +1,24 @@
+.form {
+      margin-top: 20px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+}
+
+#message {
+    margin-top: 20px;
+}
+
+.heading {
+    background: linear-gradient(135deg, #232129, #272727); /* dark green to dark grey */
+    color: #ffffff; /* white text */
+    padding: 20px 30px;
+    border-radius: 12px; /* soft rounded corners */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* subtle shadow for depth */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
