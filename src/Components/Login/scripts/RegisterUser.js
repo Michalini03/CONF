@@ -47,7 +47,7 @@ function submitRegistration(event) {
       }
 
       $.ajax({
-            url: '/CONF/public/register.php',
+            url: '/CONF/public/api/login_page/register.php',
             type: 'POST',
             data: { username: username, password: password },
             dataType: 'json',

@@ -7,6 +7,9 @@
 
     <!-- Bootstrap CSS (local) -->
     <link rel="stylesheet" href="/CONF/public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/CONF/public/css/global.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/CONF/public/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 
@@ -24,14 +27,19 @@
     <!-- Right-aligned links -->
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <?php  if($_SESSION['user_id'] > 2): ?>
-          <li class="nav-item">
-            <a class="nav-link" href="/CONF/admin">Admin Panel</a>
-          </li>
-        <?php  endif; ?>
         <?php  if(isset($_SESSION['user_id'])): ?>
+          <?php  if($_SESSION['access_rights'] > 1): ?>
+            <li class="nav-item">
+              <a class="nav-link" href="/CONF/myarticles">My Articles</a>
+            </li>
+          <?php  endif; ?>
+          <?php  if($_SESSION['access_rights'] > 2): ?>
+            <li class="nav-item">
+              <a class="nav-link" href="/CONF/admin">Admin Panel</a>
+            </li>
+          <?php  endif; ?>
           <li class="nav-item">
-            <a class="nav-link" href="/CONF/public/logout.php">Logout</a>
+            <a class="nav-link" href="/CONF/public/api/login_page/logout.php">Logout</a>
           </li>
         <?php  else: ?>
           <li class="nav-item">

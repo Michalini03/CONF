@@ -27,7 +27,7 @@ function validateLoginForm(username, password) {
 
 function checkIntoDatabase(username, password) {
     $.ajax({
-        url: '/CONF/public/login.php',
+        url: '/CONF/public/api/login_page/login.php',
         type: 'POST',
         dataType: 'json',
         data: {

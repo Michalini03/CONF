@@ -1,10 +1,9 @@
 <?php
 /*if (!isset($_SESSION['user_id'])) {
-    header("Location: /CONF/login");
+    $_SESSION['access_rights'] = 0;
     exit;
 }*/
 
-require __DIR__ . '/../../../Shared/header.php';
 ?>
 
 <body>

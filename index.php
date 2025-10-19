@@ -11,6 +11,8 @@ $router = new Router();
 $router->add('/', 'Dashboard/index.php');
 $router->add('/login', 'Login/index.php');
 $router->add('/dashboard', 'Dashboard/index.php');
+$router->add('/myarticles', 'ArticleList/index.php');
+$router->add('/admin', 'Admin/index.php');
 
 // Dispatch
 $router->dispatch($request);

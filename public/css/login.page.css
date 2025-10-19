@@ -22,3 +22,38 @@
     text-transform: uppercase;
     letter-spacing: 1px;
 }
+
+.input-group-text {
+    background-color: #213a32; /* Dark green background */
+    color: azure; /* White text */
+    border: none; /* Remove border */
+}
+
+.input-group-text:hover {
+    background-color: #37574b; /* Slightly lighter green on hover */
+    color: azure; /* White text */
+}
+
+body {
+    background-color: #213a32; /* Dark green background */
+    color: rgb(37, 37, 37); /* White text */
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.btn-primary {
+    background-color: #213a32; /* Green */
+    border-color: #4CAF50;
+}
+
+.btn-primary:hover {
+    background-color: #37574b; /* Darker green */
+    border-color: #45a049;
+}
+
+.btn-primary:active {
+    background-color: #37574b;
+}
+
+#register-redirect, #login-redirect {
+    margin-top: 20px;
+}

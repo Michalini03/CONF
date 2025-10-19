@@ -1,7 +1,7 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-require_once '../src/Components/Login/LoginController.php';
+require_once '../../../src/Components/Login/LoginController.php';
 
 $username = $_POST['username'] ?? null;
 $password = $_POST['password'] ?? null;
@@ -12,7 +12,7 @@ if ($username === null || $password === null) {
 }
 
 $controller = new LoginController();
-$response = $controller->checkUserInfoInDB($username, $password);
+$response = $controller->registerNewUser($username, $password);
 
-echo json_encode($response); // Only this
+echo json_encode($response);
 exit;

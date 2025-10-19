@@ -1,0 +1,58 @@
+body {
+    /* Path to your image */
+    background-size: cover;       /* Make it cover the whole screen */
+    background-position: center;  /* Center the image */
+    background-repeat: repeat-x; /* Don’t tile */
+    background-attachment: fixed; /* Optional: keeps background fixed on scroll */
+    
+    /* Optional fallback color */
+    background-color: #37574b;
+    
+    font-family: 'Courier New', Courier, monospace;
+    color: azure;
+}
+
+.btn-primary {
+    background-color: #213a32; /* Green */
+    border-color: #4CAF50;
+}
+
+.btn-primary:hover {
+    background-color: #37574b; /* Darker green */
+    border-color: #45a049;
+}
+
+.btn-danger {
+    background-color: #8B0000; /* Dark Red */
+    border-color: #b41515;
+}
+
+.container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* Styles for article rows on the dashboard */
+.article-row {
+    background-color: rgba(33, 58, 50, 0.8); /* Dark green with opacity */
+    color: azure;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Subtle shadow for depth */
+    transition: transform 0.2s; /* Smooth transform on hover */
+
+    border: #213a32 3px solid;
+}
+
+.article-row:hover {
+    transform: scale(1.02); /* Slightly enlarge on hover */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3); /* Enhanced shadow on hover */
+}
+
+.article-row h5 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
