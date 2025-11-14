@@ -1,5 +1,8 @@
 function changeToRegister() {
       $('#login-form').hide();
+      $('#register-username').val('');
+      $('#register-password').val('');
+      $('#register-confirm-password').val('');
       $('#register-form').show();
       $('#message').removeClass('alert alert-danger alert-success').text('');
 }
@@ -42,14 +45,18 @@ function submitRegistration(event) {
       let errors = validUserInfo(username, password, confirmPassword)
       console.log("Validation errors:", errors);
       if (errors.length > 0) {
-            handleError(errors.join('\n'));
+            handleError(errors);
             return;
       }
 
       $.ajax({
-            url: '/CONF/public/api/login_page/register.php',
+            url: API_LOGIN_URL,
             type: 'POST',
-            data: { username: username, password: password },
+            data: { 
+                  action: 'register',
+                  username: username, 
+                  password: password 
+            },
             dataType: 'json',
             success: function(response) {
                   if (response.success) {
@@ -62,7 +69,7 @@ function submitRegistration(event) {
                         }, 1000);
                   }
                   else {
-                        handleError(response.message);
+                        handleError([...response.message]);
                   }
             },
             error: function(xhr, status, error) {

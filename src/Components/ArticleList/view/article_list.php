@@ -1,23 +1,31 @@
+<?php
+if (!isset($_SESSION['access_rights']) || $_SESSION['access_rights'] < 1) {
+    header('Location: /');
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Article List</title>
-     <script src="/CONF/src/Components/ArticleList/scripts/ListLoader.js"></script>
-      <script src="/CONF/src/Components/ArticleList/scripts/EditArticle.js"></script>
-      <script src="/CONF/src/Components/ArticleList/scripts/CreateArticle.js"></script>
-      <script src="/CONF/src/Components/ArticleList/scripts/DeleteArticle.js"></script>
+     <script src="/src/Components/ArticleList/scripts/ListLoader.js"></script>
+      <script src="/src/Components/ArticleList/scripts/EditArticle.js"></script>
+      <script src="/src/Components/ArticleList/scripts/CreateArticle.js"></script>
+      <script src="/src/Components/ArticleList/scripts/DeleteArticle.js"></script>
 </head>
       <body>
       <header>
-            <h1>Articles</h1>
-            <button id="create-article-button" class="btn btn-primary" onclick="showCreateModal()">Create New Article</button>
+            <h1>My Articles</h1>
+            
       </header>
       <main>
             <div id="article-list" class="container">
                   <!-- Articles will be dynamically loaded here -->
             </div>
+            <button id="create-article-button" class="btn btn-primary" onclick="showCreateModal()">Create New Article</button>
       </main>
 
       <div id="edit-modal" class="modal" style="display: none;">
@@ -98,8 +106,10 @@
 </html>
 
 <script>
-    // Load articles when the page is ready
-    document.addEventListener('DOMContentLoaded', function() {
-        renderArticleList();
-    });
+      // Load articles when the page is ready
+      document.addEventListener('DOMContentLoaded', function() {
+            const userAccessRights = <?php echo json_encode($_SESSION['access_rights']); ?>;
+            const userId = <?php echo json_encode($_SESSION['user_id']); ?>;
+            renderArticleList(userAccessRights, userId);
+      });
 </script>

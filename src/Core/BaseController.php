@@ -7,8 +7,6 @@ class BaseController {
     public function __construct() {
         // Initialize database connection
         $this->db = DatabaseConnector::get();
-        $this->db->set_charset("utf8mb4");
-
         // Start session if not already started
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -17,14 +15,20 @@ class BaseController {
 
     /**
      * Render a PHP view file and pass data to it
+     * @param string $component  Component name
      * @param string $view  Relative path to view file
      * @param array $data   Associative array of data for the view
      */
-    protected function render($view, $data = []) {
+    protected function render($component, $view, $data = []) {
         // Extract data array to variables
         extract($data);
+
+        if ($component !== 'Login') {
+            // Include header
+            require __DIR__ . "/../Shared/header.php";
+        }
         // Include the view file
-        require __DIR__ . "/../views/{$view}.php";
+        require __DIR__ . "/../Components/" . $component ."/view/{$view}.php";
     }
 
     /**

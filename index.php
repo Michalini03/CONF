@@ -8,11 +8,11 @@ $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $router = new Router();
 
 // Define routes
-$router->add('/', 'Dashboard/index.php');
-$router->add('/login', 'Login/index.php');
-$router->add('/dashboard', 'Dashboard/index.php');
-$router->add('/myarticles', 'ArticleList/index.php');
-$router->add('/admin', 'Admin/index.php');
+$router->add('/', ['component' => 'Dashboard', 'controller' => 'DashboardController', 'method' => 'showDashboard']);
+$router->add('/dashboard', ['component' => 'Dashboard', 'controller' => 'DashboardController', 'method' => 'showDashboard']);
+$router->add('/login', ['component' => 'Login', 'controller' => 'LoginController', 'method' => 'showForm']);
+$router->add('/admin', ['component' => 'Admin', 'controller' => 'AdminController', 'method' => 'showAdminPage']);
+$router->add('/myarticles', ['component' => 'ArticleList', 'controller' => 'ArticleController', 'method' => 'showArticlePage']);
 
 // Dispatch
 $router->dispatch($request);

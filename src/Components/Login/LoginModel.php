@@ -1,54 +1,69 @@
 <?php
 class LoginModel {
 
-      private $db;
-      public function __construct($db) {
-            $this->db = $db;
-      }
+    private $db;
+    public function __construct($db) {
+        $this->db = $db;
+    }
 
-      public function getUserId($username) {
-            
-            $stmt = $this->db->prepare("SELECT id FROM users WHERE username = ?");
-            $stmt->bind_param("s", $username);
-            $stmt->execute();
-            $result = $stmt->get_result();
+    /**
+     * Get a user's ID from their username.
+     */
+    public function getUserId($username) {
+        $stmt = $this->db->prepare("SELECT id FROM users WHERE username = ?");
+        $stmt->execute([$username]);
+        $row = $stmt->fetch(); // Gets one row
 
-            // Check if a user was found
-            if ($result->num_rows > 0) {
-                  $row = $result->fetch_assoc();
-                  return $row['id'];
-            } else {
-                  return -1;
-            }
-      }
+        if ($row) {
+            return $row['id'];
+        } else {
+            return -1; // No user found
+        }
+    }
+
+    /**
+     * Validate a user's password.
+     * On success, returns the user's data (row).
+     * On failure (bad ID or bad password), returns false.
+     */
+    public function validateUser($id, $password) {
+        // FIXED: Uses prepared statements to prevent SQL injection
+        // FIXED: Uses $this->db, not a new connection
+        $stmt = $this->db->prepare("SELECT password, access_rights FROM users WHERE id = ?");
+        $stmt->execute([$id]);
+        $row = $stmt->fetch();
+
+        if (!$row) {
+            return false; // User does not exist
+        }
+
+        // Verify password
+        if (password_verify($password, $row['password'])) {
+            // Password is correct! Return the user data.
+            // The CONTROLLER will be responsible for setting the session.
+            return $row; 
+        } else {
+            // Password is wrong
+            return false;
+        }
+    }
 
 
-      public function validateUser($id, $password) {
-            $db = DatabaseConnector::get();
-            $result = $db->query("SELECT password, access_rights FROM users WHERE id = '$id'");
+    /**
+     * Create a new user.
+     */
+    public function createUser($username, $password) {
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+        $accessLevel = 0; 
 
-            if ($result->num_rows === 0) {
-                  return false; // User does not exist
-            }
-
-            $row = $result->fetch_assoc();
-            $_SESSION['access_rights'] = $row['access_rights'];
-            return password_verify($password, $row['password']);
-      }
-
-
-      public function createUser($username, $password) {
-            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-            $accessLevel = 0; // must be a variable
-
-            $stmt = $this->db->prepare("INSERT INTO users (username, password, access_rights) VALUES (?, ?, ?)");
-            $stmt->bind_param("ssi", $username, $hashedPassword, $accessLevel);
-
-
-            if ($stmt->execute()) {
-                  return $this->db->insert_id;
-            } else {
-                  return -1;
-            }
-      }
+        $sql = "INSERT INTO users (username, password, access_rights) VALUES (?, ?, ?)";
+        $stmt = $this->db->prepare($sql);
+        
+        // Pass parameters in the execute array
+        if ($stmt->execute([$username, $hashedPassword, $accessLevel])) {
+            return $this->db->lastInsertId(); // Use PDO's method
+        } else {
+            return -1;
+        }
+    }
 }

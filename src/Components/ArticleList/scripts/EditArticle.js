@@ -3,11 +3,8 @@ function showEditModal(id, title, description) {
     $('#edit-article-title').val(title);
     $('#edit-article-desc').val(description);
 
-    // Open Bootstrap modal
     const editModal = new bootstrap.Modal($('#edit-modal')[0]);
     editModal.show();
-
-
 }
 
 function hideEditModal() {
@@ -41,11 +38,12 @@ function submitArticleEdit(event) {
       formData.append('description', description);
       formData.append('file', file);
       formData.append('article_id', articleId);
+      formData.append('action', 'editArticle');
 
       console.log("Submitting edit for article ID:", formData);
 
       $.ajax({
-            url: '/CONF/public/api/articles/edit.php',
+            url: API_ARTICLE_URL,
             type: 'POST',
             data: formData,
             processData: false,

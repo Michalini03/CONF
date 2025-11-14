@@ -6,17 +6,17 @@
     <title>Conferention App</title>
 
     <!-- Bootstrap CSS (local) -->
-    <link rel="stylesheet" href="/CONF/public/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/CONF/public/css/global.css">
+    <link rel="stylesheet" href="/public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/css/global.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="/CONF/public/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/CONF">Conferention</a>
+    <a class="navbar-brand" href="/">Conferention</a>
     
     <!-- Toggle button for mobile -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -30,20 +30,22 @@
         <?php  if(isset($_SESSION['user_id'])): ?>
           <?php  if($_SESSION['access_rights'] > 1): ?>
             <li class="nav-item">
-              <a class="nav-link" href="/CONF/myarticles">My Articles</a>
+              <a class="nav-link" href="/myarticles">My Articles</a>
             </li>
           <?php  endif; ?>
           <?php  if($_SESSION['access_rights'] > 2): ?>
             <li class="nav-item">
-              <a class="nav-link" href="/CONF/admin">Admin Panel</a>
+              <a class="nav-link" href="/admin">Admin Panel</a>
             </li>
           <?php  endif; ?>
           <li class="nav-item">
-            <a class="nav-link" href="/CONF/public/api/login_page/logout.php">Logout</a>
+            <form action="/public/api/api_login.php?action=logout" method="POST" style="display:inline;">
+              <button type="submit" class="nav-link btn btn-link" style="text-decoration:none;">Logout</button>
+            </form>
           </li>
         <?php  else: ?>
           <li class="nav-item">
-            <a class="nav-link" href="/CONF/login">Login</a>
+            <a class="nav-link" href="/login">Login</a>
           </li>
         <?php  endif; ?>
       </ul>

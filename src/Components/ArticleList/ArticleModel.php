@@ -2,93 +2,119 @@
 
 class ArticleModel {
       private $db;
+      
       public function __construct($db) {
             $this->db = $db;
       }
 
-      public function getArticlesByUserId($user_id) {
-            $stmt = $this->db->prepare("SELECT * FROM articles WHERE author_id = ?");
-            $stmt->bind_param("i", $user_id);
+      /**
+       * Get all articles.
+       */
+      public function getAllArticles() {
+            $stmt = $this->db->prepare("SELECT * FROM articles");
             $stmt->execute();
-            $result = $stmt->get_result();
-            return $result->fetch_all(MYSQLI_ASSOC);
+            return $stmt->fetchAll();
       }
 
+
+      /**
+       * Get articles for a specific user.
+       */
+      public function getArticlesByUserId($user_id) {
+            $stmt = $this->db->prepare("SELECT * FROM articles WHERE author_id = ?");
+            $stmt->execute([$user_id]);
+            return $stmt->fetchAll(); // Uses default FETCH_ASSOC
+      }
+
+      /**
+       * Insert a new article and return its ID.
+       */
       public function insertArticle($user_id, $title, $description, $filename) {
-            $stmt = $this->db->prepare("INSERT INTO articles (author_id, title, description, file_name) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("isss", $user_id, $title, $description, $filename);
-            if ($stmt->execute()) {
-                  return $this->db->insert_id;
+            $sql = "INSERT INTO articles (author_id, title, description, file_name) VALUES (?, ?, ?, ?)";
+            $stmt = $this->db->prepare($sql);
+            
+            // Pass params in array
+            $success = $stmt->execute([$user_id, $title, $description, $filename]);
+            
+            if ($success) {
+                  return $this->db->lastInsertId();
             } else {
                   return false;
             }
       }
 
+      /**
+       * Save the PDF file and return ONLY the unique filename.
+       * Storing the full path in the DB is bad practice.
+       */
       public function savePDFFile($file) {
             $uploadDir = __DIR__ . '/../../../public/uploads/';
             if (!is_dir($uploadDir)) {
                   mkdir($uploadDir, 0755, true);
             }
 
-            // Generate unique filename to avoid overwriting
             $uniqueName = uniqid() . '_' . basename($file['name']);
             $targetFilePath = $uploadDir . $uniqueName;
 
-            // Move uploaded file
             if (move_uploaded_file($file['tmp_name'], $targetFilePath)) {
-                  // Return the relative path for DB storage
-                  return '/CONF/public/uploads/' . $uniqueName;
+                  // SUCCESS: Return ONLY the filename
+                  return $uniqueName;
             } else {
-                  return false; // failed to save
+                  return false;
             }
       }
 
+      /**
+       * Update an article.
+       */
       public function updateArticle($article_id, $title, $description, $filename = null) {
             if ($filename) {
+                  // If a new file is provided
                   $stmt = $this->db->prepare("UPDATE articles SET title = ?, description = ?, file_name = ? WHERE id = ?");
-                  $stmt->bind_param("sssi", $title, $description, $filename, $article_id);
+                  return $stmt->execute([$title, $description, $filename, $article_id]);
             } else {
+                  // If no new file is provided
                   $stmt = $this->db->prepare("UPDATE articles SET title = ?, description = ? WHERE id = ?");
-                  $stmt->bind_param("ssi", $title, $description, $article_id);
+                  return $stmt->execute([$title, $description, $article_id]);
             }
-            return $stmt->execute();
       }
 
+      /**
+       * Delete an article.
+       */
       public function deleteArticle($article_id) {
             $stmt = $this->db->prepare("DELETE FROM articles WHERE id = ?");
-            $stmt->bind_param("i", $article_id);
-            return $stmt->execute();
+            return $stmt->execute([$article_id]);
       }
 
+      /**
+       * Delete the physical file from the server.
+       * This is much simpler now that we only store the filename.
+       */
       public function deleteOldFile($article_id) {
-            $file_name = "";
-
             $stmt = $this->db->prepare("SELECT file_name FROM articles WHERE id = ?");
-            $stmt->bind_param("i", $article_id);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $row = $result->fetch_assoc();
+            $stmt->execute([$article_id]);
+            $row = $stmt->fetch(); // Gets the first (and only) row
 
-            $file_name_parts = explode('/', $row['file_name']);
-            $file_name_last = end($file_name_parts);
-
-            if ($file_name_last) {
-                  $filePath = __DIR__ . '/../../../public/uploads/' . $file_name_last;
+            // Check if $row is valid AND file_name is not empty
+            if ($row && !empty($row['file_name'])) {
+                  $filePath = __DIR__ . '/../../../public/uploads/' . $row['file_name'];
                   if (file_exists($filePath)) {
-                        unlink($filePath);
+                  unlink($filePath);
                   }
             }
       }
 
+      /**
+       * Check if a title is available (excluding a specific article ID).
+       */
       public function checkForAvaiableName($title, $excludeArticleId = -1) {
-            $count = null;
             $stmt = $this->db->prepare("SELECT COUNT(id) FROM articles WHERE title = ? AND id != ?");
-            $stmt->bind_param("si", $title, $excludeArticleId);
-            $stmt->execute();
-            $stmt->bind_result($count);
-            $stmt->fetch();
-            $stmt->close();
-
+            $stmt->execute([$title, $excludeArticleId]);
+            
+            // fetchColumn() is perfect for getting a single value (the count)
+            $count = $stmt->fetchColumn(); 
+            
             return $count == 0;
       }
 }

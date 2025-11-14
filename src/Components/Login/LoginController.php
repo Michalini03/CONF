@@ -10,16 +10,21 @@ class LoginController extends BaseController {
         $this->model = new LoginModel($this->db);
     }
 
+    public function showForm() {
+        $this->render('Login', 'login');
+    }
+
     public function checkUserInfoInDB($username, $password) {
         $id = $this->model->getUserId($username);
         if ($id === -1) {
             return ['success' => false, 'message' => 'User not found'];
         }
 
-        $isCorrect = $this->model->validateUser($id, $password);
-        if ($isCorrect) {
+        $result = $this->model->validateUser($id, $password);
+        if ($result !== false) {
             $_SESSION['user_id'] = $id;
             $_SESSION['username'] = $username;
+            $_SESSION['access_rights'] = $result['access_rights'];
             return ['success' => true, 'message' => 'Login successful'];
         } else {
             $_SESSION['user_id'] = null;

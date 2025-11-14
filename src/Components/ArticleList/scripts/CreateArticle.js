@@ -5,12 +5,20 @@ function showCreateModal() {
       createModal.show();
 }
 
+/**
+ * Clear modal values
+ */
 function clearCreateModal() {
       $('#create-article-title').val('');
       $('#create-article-desc').val('');
       $('#create-article-file').val('');
 }
 
+/**
+ * Gets data from frontend elements and saves them to DB
+ * @param {*} event 
+ * @returns 
+ */
 function createNewArticle(event) {
     event.preventDefault();
 
@@ -28,9 +36,10 @@ function createNewArticle(event) {
     formData.append('title', title);
     formData.append('description', description);
     formData.append('file', file);
+    formData.append('action', 'createArticle');
 
     $.ajax({
-        url: '/CONF/public/api/articles/create.php',
+        url: API_ARTICLE_URL,
         type: 'POST',
         data: formData,
         processData: false,

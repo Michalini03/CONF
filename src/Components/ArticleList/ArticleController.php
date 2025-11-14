@@ -10,14 +10,31 @@ class ArticleController extends BaseController {
         $this->model = new ArticleModel($this->db);
     }
 
+    public function fetchAllArticles() {
+        $loadedArticles = $this->model->getAllArticles();
+
+        if ($loadedArticles === false) {
+            return ['success' => false, 'message' => 'Error fetching articles.'];
+        }
+
+        return ['success' => true, 'articles' => $loadedArticles];
+    }
+
     public function fetchUserArticles($user_id) {
         if ($user_id === null) {
-            return null;
+            return ['success' => false, 'message' => 'Missing required fields.'];
         }
 
         $loadedArticles = $this->model->getArticlesByUserId($user_id);
+        if ($loadedArticles === false) {
+            return ['success' => false, 'message' => 'Error fetching articles.'];
+        }
 
-        return $loadedArticles;
+        return ['success' => true, 'articles' => $loadedArticles];
+    }
+
+    public function showArticlePage() {
+        $this->render('ArticleList', 'article_list');
     }
 
     public function createArticle($user_id, $title, $description, $file) {

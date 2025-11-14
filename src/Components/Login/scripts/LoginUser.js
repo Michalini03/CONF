@@ -1,3 +1,5 @@
+const API_LOGIN_URL = '/public/api/api_login.php';
+
 function submitLogin() {
     event.preventDefault();
     const username = jQuery('#login-username').val();
@@ -6,7 +8,7 @@ function submitLogin() {
     let errors = validateLoginForm(username, password);
 
     if (errors.length > 0) {
-        handleError(errors.join('\n'));
+        handleError(errors);
         return;
     }
 
@@ -27,10 +29,11 @@ function validateLoginForm(username, password) {
 
 function checkIntoDatabase(username, password) {
     $.ajax({
-        url: '/CONF/public/api/login_page/login.php',
+        url:  API_LOGIN_URL,
         type: 'POST',
         dataType: 'json',
         data: {
+                action: 'login',
                 username: username,
                 password: password
         },
@@ -42,27 +45,36 @@ function checkIntoDatabase(username, password) {
                         .text('Login successful!');
 
                     setTimeout(function() {
-                        window.location.href = '/CONF/';
+                        window.location.href = '/';
                     }, 1000);
                 }
                 else {
-                    handleError(response.message);
+                    handleError([...response.message]);
                 }
         },
         error: function(xhr, status, error) {
                 console.error('AJAX error:', error);
-                handleError('An error occurred, try again.');
+                handleError([...'An error occurred, try again.']);
         }
     });
 }
 
-function handleError(message) {
-    $('#message').addClass('alert alert-danger');
-    $('#message').text(message);
+function handleError(messages) {
+    var $messageDiv = $('#message')
+    $messageDiv.empty();
+    
+    messages.forEach(message => {
+        var $errorDiv = $('<div></div>');
+        $errorDiv.addClass('alert alert-danger');
+        $errorDiv.text(message);
+        $messageDiv.append($errorDiv)
+    });
 }
 
 function changeToLogin() {
     $('#login-form').show();
+    $('#login-password').val('');
+    $('#login-username').val('');
     $('#register-form').hide();
     $('#message').removeClass('alert alert-danger alert-success').text('');
 }

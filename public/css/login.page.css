@@ -23,6 +23,16 @@
     letter-spacing: 1px;
 }
 
+#login-form, #register-form {
+    max-width: 560px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #1b2923; /* Dark blue-grey background */
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    color: azure;
+}
+
 .input-group-text {
     background-color: #213a32; /* Dark green background */
     color: azure; /* White text */

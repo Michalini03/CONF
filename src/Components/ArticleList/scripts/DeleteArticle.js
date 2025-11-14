@@ -15,11 +15,13 @@ function hideDeleteModal() {
 }
 
 function deleteArticle(articleId) {
-      console.log("Deleting article with ID:", articleId);
       $.ajax({
-            url: '/CONF/public/api/articles/delete.php',
+            url: API_ARTICLE_URL,
             type: 'POST',
-            data: { article_id: articleId },
+            data: { 
+                  article_id: articleId,
+                  action: 'deleteArticle'
+            },
             dataType: 'json',
             success: function(response) {
                   if (response.success) {

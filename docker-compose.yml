@@ -1,0 +1,28 @@
+version: '3'
+services:
+  web:
+    build: .
+    volumes:
+      - ./:/var/www/html/
+    ports:
+      - 80:80
+    depends_on:
+      - db
+  db:
+    image: mysql:latest
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_DATABASE=conferention_db
+      - MYSQL_USER=malikm
+      - MYSQL_PASSWORD=test
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+volumes:
+  db:

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="/CONF/public/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/CONF/public/css/login.page.css">
+    <link rel="stylesheet" href="/public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/css/login.page.css">
         <!-- Custom JS for login and registration -->
-    <script src="/CONF/src/Components/Login/scripts/LoginUser.js"></script>
-    <script src="/CONF/src/Components/Login/scripts/RegisterUser.js"></script>
+    <script src="/src/Components/Login/scripts/LoginUser.js"></script>
+    <script src="/src/Components/Login/scripts/RegisterUser.js"></script>
         <!-- jQuery (CDN) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
