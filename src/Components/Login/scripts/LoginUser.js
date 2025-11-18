@@ -49,12 +49,12 @@ function checkIntoDatabase(username, password) {
                     }, 1000);
                 }
                 else {
-                    handleError([...response.message]);
+                    handleError([response.message]);
                 }
         },
         error: function(xhr, status, error) {
                 console.error('AJAX error:', error);
-                handleError([...'An error occurred, try again.']);
+                handleError(['An error occurred, try again.']);
         }
     });
 }

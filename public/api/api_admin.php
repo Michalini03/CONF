@@ -55,8 +55,10 @@ switch ($action) {
             exit;
         }
 
+        $new_author_id = $_SESSION['user_id'] ?? null;
+
         $user_id = $_POST['user_id'] ?? null;
-        $response = $adminController->deleteUser($user_id);
+        $response = $adminController->deleteUser($user_id, $new_author_id);
         echo json_encode($response);
         break;
 

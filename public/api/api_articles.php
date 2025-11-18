@@ -14,8 +14,8 @@ switch ($action) {
             break;
 
       case 'fetchArticleById':
-            $article_id = $_GET['article_id'] ?? null;
-            $response = $articleController->fetchUserArticles($article_id);
+            $user_id = $_GET['user_id'] ?? null;
+            $response = $articleController->fetchUserArticles($user_id);
             echo json_encode($response);
             break;
 

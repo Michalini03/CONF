@@ -23,10 +23,6 @@ class BaseController {
         // Extract data array to variables
         extract($data);
 
-        if ($component !== 'Login') {
-            // Include header
-            require __DIR__ . "/../Shared/header.php";
-        }
         // Include the view file
         require __DIR__ . "/../Components/" . $component ."/view/{$view}.php";
     }

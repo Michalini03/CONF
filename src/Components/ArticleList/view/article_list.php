@@ -1,9 +1,15 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+      session_start();
+}
+
 if (!isset($_SESSION['access_rights']) || $_SESSION['access_rights'] < 1) {
     header('Location: /');
     exit;
 }
 ?>
+
+<?php include_once __DIR__ . '/../../../Shared/header.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en">

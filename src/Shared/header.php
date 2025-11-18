@@ -16,7 +16,11 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">Conferention</a>
+    <a class="navbar-brand d-flex align-items-center" href="/">
+      <img src="public/images/logo.png" alt="Logo" width="40" height="40" class="me-1">
+      Conferention
+    </a>
+
     
     <!-- Toggle button for mobile -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -28,12 +32,12 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <?php  if(isset($_SESSION['user_id'])): ?>
-          <?php  if($_SESSION['access_rights'] > 1): ?>
+          <?php  if($_SESSION['access_rights'] >= 1): ?>
             <li class="nav-item">
               <a class="nav-link" href="/myarticles">My Articles</a>
             </li>
           <?php  endif; ?>
-          <?php  if($_SESSION['access_rights'] > 2): ?>
+          <?php  if($_SESSION['access_rights'] >= 2): ?>
             <li class="nav-item">
               <a class="nav-link" href="/admin">Admin Panel</a>
             </li>

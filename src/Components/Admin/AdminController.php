@@ -43,13 +43,13 @@ class AdminController extends BaseController {
         }
     }
 
-    public function deleteUser($user_id) {
-        if ($user_id === null) {
+    public function deleteUser($user_id, $new_author_id) {
+        if ($user_id === null || $new_author_id === null) {
             return ['success' => false, 'message' => 'Missing required fields.'];
         }
 
         if($this->model->deleteUser($user_id)) {
-            $this->model->reassignUserArticles($user_id);
+            $this->model->reassignUserArticles($user_id, $new_author_id);
             return ['success' => true, 'message' => 'User deleted successfully.'];
         } 
         else {
