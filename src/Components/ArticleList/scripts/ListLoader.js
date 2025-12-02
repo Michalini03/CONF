@@ -1,31 +1,6 @@
 const API_ARTICLE_URL = '/public/api/api_articles.php';
 const ARTICLE_SRC_PATH = 'public/uploads/';
 
-function getArticles() {
-    var loadedArticles = [];
-    // Simulated article data
-    $.ajax({
-        url: API_ARTICLE_URL,
-        type: 'GET',
-        dataType: 'json',
-        data: {
-            action: 'fetchArticles'
-        },
-        async: false,
-        success: function(response) {
-            if (response.success) {
-                loadedArticles = response.articles;
-            } else {
-                console.error('Error fetching articles:', response.message);
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error('AJAX error:', error);
-        }
-    });
-
-    return loadedArticles;
-}
 
 function getUserArticles(userId) {
     var loadedArticles = [];
@@ -57,14 +32,15 @@ function clearArticleList() {
       $('#article-list').empty();
 }
 
-function renderArticleList(userAccessRights, userId) {
+function renderArticleList(userId) {
     clearArticleList();
     var articles = [];
-    if (userAccessRights >= 2) {
-        articles = getArticles();
-    } else {
-        articles = getUserArticles(userId);
+    articles = getUserArticles(userId);
+
+    if(!articles || articles.length == 0) {
+        $('#article-list').append('You did not create any article, yet!');
     }
+
     articles.forEach(function(article) {
         var $articleRow = $(`<div id="article-${article.id}" class="article-row mb-3 p-3"></div>`);
         $articleRow.append('<h5>' + article.title + '</h5>');

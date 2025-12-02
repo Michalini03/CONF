@@ -33,7 +33,12 @@ function handlePaging(articleCount) {
 
       if(PAGING == 1) {
             $('#left-paging').hide();
-            $('#right-paging').show();
+            if(articleCount < PAGING + 4) {
+                  $('#right-paging').hide();
+            }
+            else {
+                  $('#right-paging').show();
+            }
       }
       else if (maxPageCount = articleCount) {
             $('#left-paging').show();

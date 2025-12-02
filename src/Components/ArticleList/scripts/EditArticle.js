@@ -8,7 +8,8 @@ function showEditModal(id, title, description) {
 }
 
 function hideEditModal() {
-    $('#edit-modal').hide();
+    const editModal = new bootstrap.Modal($('#edit-modal')[0]);
+    editModal.hide();
 }
 
 function clearEditModal() {

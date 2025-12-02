@@ -86,6 +86,19 @@ switch ($action) {
         echo json_encode($response);
         break;
 
+    case 'newState':
+        if (!isset($_SESSION['access_rights']) || $_SESSION['access_rights'] < 3) {
+            http_response_code(403); // Forbidden
+            echo json_encode(['success' => false, 'message' => 'Access denied.']);
+            exit;
+        }
+
+        $article_id = $_POST['article_id'] ?? null;
+        $state = $_POST['state'] ?? null;
+        $response = $adminController->changeState($article_id, $state);
+        echo json_encode($response);
+        break;
+
     default:
         // No valid action was provided
         http_response_code(400); // Bad Request

@@ -29,7 +29,7 @@ class DashboardModel {
     }
 
     public function getArticleCount() {
-      $stmt = $this->db->prepare("SELECT COUNT(id) as count FROM `articles`");
+      $stmt = $this->db->prepare("SELECT COUNT(id) as count FROM `articles` WHERE state = 4");
       $stmt->execute();
       $row = $stmt->fetch();
 

@@ -1,32 +1,3 @@
-body {
-    /* Path to your image */
-    background-size: cover;       /* Make it cover the whole screen */
-    background-position: center;  /* Center the image */
-    background-repeat: repeat-x; /* Don’t tile */
-    background-attachment: fixed; /* Optional: keeps background fixed on scroll */
-    
-    /* Optional fallback color */
-    background-color: #37574b;
-    
-    font-family: 'Courier New', Courier, monospace;
-    color: azure;
-}
-
-.btn-primary {
-    background-color: #213a32; /* Green */
-    border-color: #4CAF50;
-}
-
-.btn-primary:hover {
-    background-color: #37574b; /* Darker green */
-    border-color: #45a049;
-}
-
-.btn-danger {
-    background-color: #8B0000; /* Dark Red */
-    border-color: #b41515;
-}
-
 .container {
     margin-top: 10px;
     margin-bottom: 10px;

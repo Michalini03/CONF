@@ -79,6 +79,15 @@ class AdminController extends BaseController {
     }
 
     public function changeState($article_id, $new_state) {
-    
+        if ($new_state === null || $article_id === null) {
+            return ['success' => false, 'message' => 'Missing required fields.'];
+        }
+
+        if ($this->model->changeState($article_id, $new_state)) {
+            return ['success'=> true, 'message'=> 'State changed successfully'];
+        }
+        else {
+            return ['success'=> false, 'message'=> 'Failed to change state'];
+        }
     }
 }

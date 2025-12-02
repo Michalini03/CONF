@@ -22,7 +22,8 @@ class DashboardController extends BaseController {
         $count = $this->model->getArticleCount();
 
         $data = $this->model->fetchDashboardData($index);
-        if ($data != null) {
+
+        if (isset($data)) {
             return ['success'=> true,'data'=> $data, 'count'=> $count];
         } else {
             return ['success'=> false,'message'=> 'Error fetching data'];

@@ -70,4 +70,13 @@ class AdminModel {
             ");
             return $stmt->execute([$reviewer_id, $article_id]);
       }
+
+      public function changeState($article_id, $state) {
+            $stmt = $this->db->prepare("
+                  UPDATE articles
+                  SET state = ?
+                  WHERE id = ?
+            ");
+            return $stmt->execute([$state, $article_id]);
+      }
 }
