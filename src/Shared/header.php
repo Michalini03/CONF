@@ -39,6 +39,11 @@
           <?php  endif; ?>
           <?php  if($_SESSION['access_rights'] >= 2): ?>
             <li class="nav-item">
+              <a class="nav-link" href="/myreviews">My Reviews</a>
+            </li>
+          <?php  endif; ?>
+          <?php  if($_SESSION['access_rights'] >= 3): ?>
+            <li class="nav-item">
               <a class="nav-link" href="/admin">Admin Panel</a>
             </li>
           <?php  endif; ?>

@@ -11,7 +11,13 @@ class AdminModel {
        * Get all standard users.
        */
       public function getAllUsers() {
-            $stmt = $this->db->prepare("SELECT id, username, access_rights FROM users WHERE access_rights < 2");
+            $stmt = $this->db->prepare("SELECT id, username, access_rights FROM users WHERE access_rights < 3");
+            $stmt->execute();
+            return $stmt->fetchAll(); // Uses the default FETCH_ASSOC from your connector
+      }
+
+      public function getAllReviewers() {
+            $stmt = $this->db->prepare("SELECT id, username FROM users WHERE access_rights >= 2");
             $stmt->execute();
             return $stmt->fetchAll(); // Uses the default FETCH_ASSOC from your connector
       }
@@ -20,7 +26,7 @@ class AdminModel {
        * Get all admin/editor users.
        */
       public function getAllAdmins() {
-            $stmt = $this->db->prepare("SELECT id, username, access_rights FROM users WHERE access_rights = 2");
+            $stmt = $this->db->prepare("SELECT id, username, access_rights FROM users WHERE access_rights = 3");
             $stmt->execute();
             return $stmt->fetchAll();
       }
@@ -49,5 +55,19 @@ class AdminModel {
             $stmt = $this->db->prepare("UPDATE articles SET author_id = ? WHERE author_id = ?");
             // Pass parameters in order
             return $stmt->execute([$new_author_id, $user_id]);
+      }
+
+      /**
+       * Summary of addReviewer
+       * @param mixed $reviewer_id
+       * @param mixed $article_id
+       */
+      public function addReviewer($reviewer_id, $article_id) {
+            $stmt = $this->db->prepare("
+                  UPDATE articles
+                  SET reviewer_id = ?, state = 2
+                  WHERE id = ?
+            ");
+            return $stmt->execute([$reviewer_id, $article_id]);
       }
 }

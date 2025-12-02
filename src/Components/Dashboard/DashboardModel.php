@@ -8,18 +8,19 @@ class DashboardModel {
 
     public function fetchDashboardData($index) {
       $stmt = $this->db->prepare("
-            SELECT 
-                  a.id as id, 
-                  a.title as title,
-                  a.description as description, 
-                  a.file_name as file_name, 
-                  a.last_edited as last_edited,
-                  s.username as author
-            FROM articles AS a
-            LEFT JOIN users AS s ON a.author_id = s.id
-            ORDER BY a.id
-            LIMIT 5 OFFSET ?
-      ");
+        SELECT 
+            a.id AS id, 
+            a.title AS title,
+            a.description AS description, 
+            a.file_name AS file_name, 
+            a.last_edited AS last_edited,
+            s.username AS author
+        FROM articles AS a
+        LEFT JOIN users AS s ON a.author_id = s.id
+        WHERE a.state = 4
+        ORDER BY a.id
+        LIMIT 5 OFFSET ?
+    ");
 
       $stmt->execute([(int)$index]);
       $row = $stmt->fetchAll();

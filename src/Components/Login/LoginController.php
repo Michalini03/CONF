@@ -42,7 +42,7 @@ class LoginController extends BaseController {
         if ($newUserId !== -1) {
             $_SESSION['user_id'] = $newUserId;
             $_SESSION['username'] = $username;
-            $_SESSION['access_rights'] = 0;
+            $_SESSION['access_rights'] = 1;
             return ['success' => true, 'message' => 'Registration successful'];
         } else {
             return ['success' => false, 'message' => 'Registration failed'];

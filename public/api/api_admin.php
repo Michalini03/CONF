@@ -12,7 +12,7 @@ $adminController = new AdminController();
 switch ($action) {
     case 'fetchAdmins':
         // Check for Admin-level access
-        if (!isset($_SESSION['access_rights']) || $_SESSION['access_rights'] < 3) {
+        if (!isset($_SESSION['access_rights']) || $_SESSION['access_rights'] < 4) {
             http_response_code(403); // Forbidden
             echo json_encode(['success' => false, 'message' => 'Access denied.']);
             exit;
@@ -24,7 +24,7 @@ switch ($action) {
 
     case 'fetchUsers':
         // Check for Editor-level access (or higher)
-        if (!isset($_SESSION['access_rights']) || $_SESSION['access_rights'] < 2) {
+        if (!isset($_SESSION['access_rights']) || $_SESSION['access_rights'] < 3) {
             http_response_code(403); // Forbidden
             echo json_encode(['success' => false, 'message' => 'Access denied.']);
             exit;
@@ -34,8 +34,19 @@ switch ($action) {
         echo json_encode($response);
         break;
 
+    case 'fetchReviewers':
+        if (!isset($_SESSION['access_rights']) || $_SESSION['access_rights'] < 3) {
+            http_response_code(403); // Forbidden
+            echo json_encode(['success' => false, 'message' => 'Access denied.']);
+            exit;
+        }
+        
+        $response = $adminController->fetchAllReviewers();
+        echo json_encode($response);
+        break;
+
     case 'updateUserRights':
-        if (!isset($_SESSION['access_rights']) || $_SESSION['access_rights'] < 2) {
+        if (!isset($_SESSION['access_rights']) || $_SESSION['access_rights'] < 3) {
             http_response_code(403); // Forbidden
             echo json_encode(['success' => false, 'message' => 'Access denied.']);
             exit;
@@ -49,7 +60,7 @@ switch ($action) {
         break;
 
     case 'deleteUser':
-        if (!isset($_SESSION['access_rights']) || $_SESSION['access_rights'] < 2) {
+        if (!isset($_SESSION['access_rights']) || $_SESSION['access_rights'] < 3) {
             http_response_code(403); // Forbidden
             echo json_encode(['success' => false, 'message' => 'Access denied.']);
             exit;
@@ -59,6 +70,19 @@ switch ($action) {
 
         $user_id = $_POST['user_id'] ?? null;
         $response = $adminController->deleteUser($user_id, $new_author_id);
+        echo json_encode($response);
+        break;
+
+    case 'assignReviewer':
+        if (!isset($_SESSION['access_rights']) || $_SESSION['access_rights'] < 3) {
+            http_response_code(403); // Forbidden
+            echo json_encode(['success' => false, 'message' => 'Access denied.']);
+            exit;
+        }
+
+        $article_id = $_POST['article_id'] ?? null;
+        $reviewer_id = $_POST['reviewer_id'] ?? null;
+        $response = $adminController->addReviewer($reviewer_id, $article_id);
         echo json_encode($response);
         break;
 

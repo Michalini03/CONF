@@ -69,6 +69,7 @@ function renderArticleList(userAccessRights, userId) {
         var $articleRow = $(`<div id="article-${article.id}" class="article-row mb-3 p-3"></div>`);
         $articleRow.append('<h5>' + article.title + '</h5>');
         $articleRow.append('<p class="article-row-desc">' + (article.description || 'No description available.') + '</p>');
+        $articleRow.append('<p>State: ' + getStateString(article.state) + '</p>');
         $articleRow.append('<p>Last Edited: ' + article.last_edited + '</p>');
         $articleRow.append('<a href="' + ARTICLE_SRC_PATH + article.file_name + '" target="_blank" class="btn btn-secondary btn-sm me-2">View PDF</a>');
 
@@ -85,4 +86,18 @@ function renderArticleList(userAccessRights, userId) {
         $articleRow.append($deleteButton);
         $('#article-list').append($articleRow);
     });
+}
+
+function getStateString(stateIndex) {
+    stateIndex = Number(stateIndex);
+
+    var dict = {
+        1: "Waiting for assignment",
+        2: "Waiting for review",
+        3: "Waiting for approval",
+        4: "Approved",
+        5: "Declined"
+    };
+
+    return dict[stateIndex];
 }

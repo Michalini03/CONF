@@ -1,4 +1,3 @@
-version: '3'
 services:
   web:
     build: .
@@ -8,6 +7,7 @@ services:
       - 80:80
     depends_on:
       - db
+  
   db:
     image: mysql:latest
     volumes:
@@ -17,12 +17,20 @@ services:
       - MYSQL_DATABASE=conferention_db
       - MYSQL_USER=malikm
       - MYSQL_PASSWORD=test
+  
   phpmyadmin:
     image: phpmyadmin
     restart: always
     ports:
       - 8080:80
     environment:
-      - PMA_ARBITRARY=1
+      - PMA_HOST=db
+      - PMA_PORT=3306
+      - PMA_USER=malikm
+      - PMA_PASSWORD=test
+      - PMA_ARBITRARY=0
+    depends_on:
+      - db
+      
 volumes:
   db:

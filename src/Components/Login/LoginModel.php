@@ -54,7 +54,7 @@ class LoginModel {
      */
     public function createUser($username, $password) {
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-        $accessLevel = 0; 
+        $accessLevel = 1; 
 
         $sql = "INSERT INTO users (username, password, access_rights) VALUES (?, ?, ?)";
         $stmt = $this->db->prepare($sql);

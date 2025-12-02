@@ -3,9 +3,9 @@ const ADMIN_SECTION_ID = '#admin-list';
 const ADMIN_API_URL = '/public/api/api_admin.php';
 
 const RIGHTS_MAP = {
-    0: 'Viewer',
-    1: 'Contributor',
-    2: 'Admin',
+    1: 'Author',
+    2: 'Reviewer',
+    3: 'Admin',
 };
 
 var ALLOWED_RIGHTS_MAP = null;
@@ -61,6 +61,11 @@ function loadAdmins() {
 
 function displayData(data, sectionId = USER_SECTION_ID) {
     var $section = $(sectionId);
+    $section.empty();
+
+    if(!data || data.length == 0) {
+        return;
+    }
 
     var $table = $('<table class="table table-hover table-striped table-dark table-responsive"></table>');
     var $thead = $('<thead><tr><th>ID</th><th>Username</th><th>Access Rights</th><th></th></tr></thead>');
@@ -103,7 +108,7 @@ function displayData(data, sectionId = USER_SECTION_ID) {
 
     $table.append($thead);
     $table.append($tbody);
-    $section.empty().append($table);
+    $section.append($table);
 }
 
 function deleteUser(userId) {

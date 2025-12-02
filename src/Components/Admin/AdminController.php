@@ -23,6 +23,14 @@ class AdminController extends BaseController {
         return ['success' => true, 'data' => $data];
     }
 
+    public function fetchAllReviewers() {
+        $data = $this->model->getAllReviewers();
+        if ($data === null) {
+            return ['success' => false, 'message' => 'No reviewers found.'];
+        }
+        return ['success' => true, 'data' => $data];
+    }
+
     public function fetchAllAdmins() {
         $data = $this->model->getAllAdmins();
         if ($data === null) {
@@ -55,5 +63,22 @@ class AdminController extends BaseController {
         else {
             return ['success' => false, 'message' => 'Failed to delete user.'];
         }
+    }
+
+    public function addReviewer($reviewer_id, $article_id) {
+        if ($reviewer_id === null || $article_id === null) {
+            return ['success' => false, 'message' => 'Missing required fields.'];
+        }
+
+        if ($this->model->addReviewer($reviewer_id, $article_id)) {
+            return ['success' => true, 'message' => 'Reviewer added successfully.'];
+        } 
+        else {
+            return ['success' => false, 'message' => 'Failed to add reviewer.'];
+        }
+    }
+
+    public function changeState($article_id, $new_state) {
+    
     }
 }

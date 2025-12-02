@@ -13,6 +13,7 @@ $router->add('dashboard', ['component' => 'Dashboard', 'controller' => 'Dashboar
 $router->add('login', ['component' => 'Login', 'controller' => 'LoginController', 'method' => 'showForm']);
 $router->add('admin', ['component' => 'Admin', 'controller' => 'AdminController', 'method' => 'showAdminPage']);
 $router->add('myarticles', ['component' => 'ArticleList', 'controller' => 'ArticleController', 'method' => 'showArticlePage']);
+$router->add('myreviews', ['component' => 'ReviewList', 'controller' => 'ReviewController', 'method' => 'showReviewPage']);
 
 // Dispatch
 $router->dispatch($request);
