@@ -3,12 +3,9 @@ Conference system for Developer new
 
 
 # TODO:
-- Change basic user to author and author to rewiever
-- Add funcionality for administrator to approve an article
 - Add more input fields and upgrade validation in registration
-- Create table of rewiers
 - Delete AI comments
-- Create dump file for DB
+- When submiting modal, be sure that modal disappears correctly + redraw page
 
 ### Acess Rights
 1: Author

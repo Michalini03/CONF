@@ -85,7 +85,7 @@ function loadArticlesForApproving(reviewers, articles) {
       var $tbody = $('<tbody></tbody>');
 
       articles.forEach(article => {
-            var $row = $('<tr></tr>');
+            var $row = $(`<tr id="approve-row-${article.id}"></tr>`);
 
             $row.append(`<td>${article.id}</td>`);
             $row.append(`<td>${article.title}</td>`);         
@@ -213,6 +213,15 @@ function setState(event, newState) {
             success: function(response) {
                   if (response.success) {
                         alert(response.message);
+                        const myModalEl = document.getElementById('approve-modal');
+                        const approve = bootstrap.Modal.getInstance(myModalEl);
+                        if (approve) {
+                            approve.hide();
+                        }
+
+                        $('#approve-row-' + articleID).fadeOut(300, function() { 
+                              $(this).remove(); 
+                        });     
                   } 
                   else {
                         console.error('Error assigning reviewer:', response.message);
@@ -224,7 +233,4 @@ function setState(event, newState) {
                   alert('A network error occurred.');
             }
       });
-
-      const approve = new bootstrap.Modal($('#approve-modal')[0]);
-      approve.hide();
 }

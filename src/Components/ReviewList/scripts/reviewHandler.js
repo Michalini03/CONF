@@ -37,7 +37,7 @@ function displayArticles(articles) {
       }
 
       articles.forEach(function(article) {
-            var $articleRow = $(`<div id="article-${article.id}" class="article-row mb-3 p-3"></div>`);
+            var $articleRow = $(`<div id="review-card-${article.id}" class="article-row mb-3 p-3"></div>`);
             $articleRow.append('<h5>' + article.title + '</h5>');
             $articleRow.append('<p class="article-row-desc">' + (article.description || 'No description available.') + '</p>');
             $articleRow.append('<p>Last Edited: ' + article.last_edited + '</p>');
@@ -57,7 +57,10 @@ function showReviewModal(articleID, articleTitle) {
     $('#review-article-id').val(articleID);
     $('#review-article-title').html(articleTitle);
 
-    const reviewModal = new bootstrap.Modal($('#review-modal')[0]);
+    // Use getOrCreateInstance. If it exists, get it. If not, create it.
+    const myModalEl = document.getElementById('review-modal');
+    const reviewModal = bootstrap.Modal.getOrCreateInstance(myModalEl);
+    
     reviewModal.show();
 }
 
@@ -81,20 +84,27 @@ function addReview(event) {
                   article_id: articleID,
                   text: reviewText
             },
-            async: false,
             success: function(response) {
                   if (response.success) {
                         alert(response.message);
+                        
+                        const myModalEl = document.getElementById('review-modal');
+                        const reviewModal = bootstrap.Modal.getInstance(myModalEl);
+                        if (reviewModal) {
+                            reviewModal.hide();
+                        }
+                        
+                        $("#review-article-text").val(''); 
+                        $('#review-card-' + articleID).fadeOut(300, function() { 
+                              $(this).remove(); 
+                        });                    
                   } 
                   else {
-                        console.error('Error fetching articles:', response.message);
+                        console.error('Error:', response.message);
                   }
             },
             error: function(xhr, status, error) {
                   console.error('AJAX error:', error);
             }
       });
-
-      const reviewModal = new bootstrap.Modal($('#review-modal')[0]);
-      reviewModal.hide();
 }

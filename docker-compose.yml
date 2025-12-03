@@ -12,6 +12,7 @@ services:
     image: mysql:latest
     volumes:
       - db:/var/lib/mysql
+      - ./config/dump.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       - MYSQL_ROOT_PASSWORD=admin
       - MYSQL_DATABASE=conferention_db
