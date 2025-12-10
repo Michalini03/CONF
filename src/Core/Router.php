@@ -26,9 +26,8 @@ class Router {
         if (isset($this->routes[$request])) {
             $routeAction = $this->routes[$request];
 
-            // === NEW LOGIC ===
             
-            // Case 1: Route is an array (MVC Class/Method)
+            // Route is an array (MVC Class/Method)
             if (is_array($routeAction)) {
                 $componentName = $routeAction['component'];
                 $controllerName = $routeAction['controller'];
@@ -55,7 +54,7 @@ class Router {
                     $this->sendError("Controller file not found: {$controllerFile}");
                 }
 
-            // Case 2: Route is a string (Simple File - for your api.php)
+            // Route is a string (Simple File - for your api.php)
             } elseif (is_string($routeAction)) {
                 // Assumes the file is in /public/
                 $filePath = __DIR__ . '/../../public/' . $routeAction; 

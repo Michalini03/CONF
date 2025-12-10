@@ -7,8 +7,6 @@ $action = $_GET['action'] ?? $_POST['action'] ?? null;
 
 $adminController = new AdminController();
 
-// 4. Use a switch to decide what to do
-
 switch ($action) {
     case 'fetchAdmins':
         // Check for Admin-level access

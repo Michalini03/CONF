@@ -21,13 +21,13 @@ class DatabaseConnector {
             $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 
             $options = [
-                // 1. Throw exceptions on errors (stops script, shows what's wrong)
+                // Throw exceptions on errors (stops script, shows what's wrong)
                 PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-                // 2. Fetch results as associative arrays (e.g., $row['name'])
+                // Fetch results as associative arrays (e.g., $row['name'])
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                // 3. Use real prepared statements for better security
+                // Use real prepared statements for better security
                 PDO::ATTR_EMULATE_PREPARES   => false,
-                // 4. Set the character set
+                // Set the character set
                 PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
             ];
 

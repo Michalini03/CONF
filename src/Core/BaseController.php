@@ -22,42 +22,6 @@ class BaseController {
     protected function render($component, $view, $data = []) {
         // Extract data array to variables
         extract($data);
-
-        // Include the view file
         require __DIR__ . "/../Components/" . $component ."/view/{$view}.php";
-    }
-
-    /**
-     * Redirect to another page
-     * @param string $url
-     */
-    protected function redirect($url) {
-        header("Location: $url");
-        exit;
-    }
-
-    /**
-     * Send JSON response
-     * @param array $data
-     */
-    protected function json($data) {
-        header('Content-Type: application/json');
-        echo json_encode($data);
-        exit;
-    }
-
-    /**
-     * Check if user is logged in
-     * @return bool
-     */
-    protected function isLoggedIn() {
-        return isset($_SESSION['user_id']);
-    }
-
-    /**
-     * Get logged in user ID
-     */
-    protected function userId() {
-        return $_SESSION['user_id'] ?? null;
     }
 }
