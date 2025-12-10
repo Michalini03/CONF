@@ -52,11 +52,6 @@ if (session_status() === PHP_SESSION_NONE) {
                         </div>
                     </div>
 
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                        <label class="form-check-label  small" for="exampleCheck1">Remember me</label>
-                    </div>
-
                     <button type="submit" class="btn btn-success w-100" onclick="submitLogin(event)">Log In</button>
                 </form>
 

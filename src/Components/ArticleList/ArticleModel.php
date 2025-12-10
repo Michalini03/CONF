@@ -68,6 +68,15 @@ class ArticleModel {
        * Update an article.
        */
       public function updateArticle($article_id, $title, $description, $filename = null) {
+            $stmt = $this->db->prepare("SELECT state FROM articles WHERE id = ?");
+            $stmt->execute([$article_id]);
+            $currentState = $stmt->fetchColumn();
+
+            if ($currentState == 5) {
+                  $updateStateStmt = $this->db->prepare("UPDATE articles SET state = 1 WHERE id = ?");
+                  $updateStateStmt->execute([$article_id]);
+            }
+
             if ($filename) {
                   // If a new file is provided
                   $stmt = $this->db->prepare("UPDATE articles SET title = ?, description = ?, file_name = ? WHERE id = ?");

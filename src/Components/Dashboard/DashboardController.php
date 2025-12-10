@@ -14,14 +14,19 @@ class DashboardController extends BaseController {
         $this->render('Dashboard', 'dashboard');
     }
 
-    public function fetchDashboardData($index) {
+    public function fetchDashboardData($index, $filter = null) {
         if ($index == null) {
             return ['success' => false, 'message' => 'Invalid values'];
         }
 
-        $count = $this->model->getArticleCount();
-
-        $data = $this->model->fetchDashboardData($index);
+        if($filter) {
+            $count = $this->model->getArticleCountFiltered($filter);
+            $data = $this->model->fetchDashboardDataFiltered($index, $filter);
+        }
+        else {
+            $count = $this->model->getArticleCount();
+            $data = $this->model->fetchDashboardData($index);
+        }
 
         if (isset($data)) {
             return ['success'=> true,'data'=> $data, 'count'=> $count];

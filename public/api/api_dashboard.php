@@ -10,7 +10,8 @@ $dashboardController = new DashboardController();
 switch ($action) {
       case 'fetchDashboardData':
             $index = $_GET['index'] ?? null;
-            $response = $dashboardController->fetchDashboardData($index);
+            $filter = $_GET['filter'] ?? null;
+            $response = $dashboardController->fetchDashboardData($index, $filter);
             echo json_encode($response);
             break;
       

@@ -1,11 +1,15 @@
 const API_DASHBOARD_URL = '/public/api/api_dashboard.php';
 const ARTICLE_SRC_PATH = 'public/uploads/';
 
+var IS_LOGGED = false
 var PAGING = 1
+var FILTER = null
 
 
-async function drawArticles(isLogged) {
+async function drawArticles(isLogged = null) {
       var articles = await fetchDashboardArticles();
+
+      if(isLogged == true) IS_LOGGED = true;
 
       var $dashboardList = $('#dashboard-list');
       $dashboardList.empty();
@@ -19,7 +23,7 @@ async function drawArticles(isLogged) {
             $articleRow.append('<p class="article-row-desc">' + (article.description || 'No description available.') + '</p>');
             $articleRow.append('<p>Author: ' + authorBackup + '</p>')
             $articleRow.append('<p>Last Edited: ' + article.last_edited + '</p>');
-            if (isLogged) $articleRow.append('<a href="' + ARTICLE_SRC_PATH + article.file_name + '" target="_blank" class="btn btn-secondary btn-sm me-2">View PDF</a>');
+            if (IS_LOGGED) $articleRow.append('<a href="' + ARTICLE_SRC_PATH + article.file_name + '" target="_blank" class="btn btn-secondary btn-sm me-2">View PDF</a>');
 
             $('#dashboard-list').append($articleRow);
       });
@@ -33,7 +37,7 @@ function handlePaging(articleCount) {
 
       if(PAGING == 1) {
             $('#left-paging').hide();
-            if(articleCount < PAGING + 4) {
+            if(articleCount <= PAGING + 4) {
                   $('#right-paging').hide();
             }
             else {
@@ -70,7 +74,8 @@ function fetchDashboardArticles() {
             dataType: 'json',
             data: {
                   action: 'fetchDashboardData',
-                  index: PAGING - 1
+                  index: PAGING - 1,
+                  filter: FILTER
             },
             async: false,
             success: function(response) {
@@ -88,3 +93,18 @@ function fetchDashboardArticles() {
 
       return loadedArticles;
 }
+
+
+function submitSearch() {
+      var inputText = $('#search-text').val();
+      PAGING = 1
+      if(!inputText || inputText == "") {
+            FILTER = null;
+      }
+      else {
+            FILTER = inputText;
+      }
+
+      drawArticles()
+}
+

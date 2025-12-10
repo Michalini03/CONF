@@ -8,7 +8,7 @@ class ReviewModel {
       }
 
       public function fetchReviewList($review_id) {
-            $stmt = $this->db->prepare("SELECT * FROM articles WHERE reviewer_id = ? AND state = 2");
+            $stmt = $this->db->prepare("SELECT * FROM articles WHERE reviewer_id = ? AND state = 2 OR state = 3");
             $stmt->execute([$review_id]);
             return $stmt->fetchAll();
       }

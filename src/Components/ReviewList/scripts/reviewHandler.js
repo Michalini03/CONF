@@ -95,9 +95,9 @@ function addReview(event) {
                         }
                         
                         $("#review-article-text").val(''); 
-                        $('#review-card-' + articleID).fadeOut(300, function() { 
+                        /*$('#review-card-' + articleID).fadeOut(300, function() { 
                               $(this).remove(); 
-                        });                    
+                        });*/                  
                   } 
                   else {
                         console.error('Error:', response.message);

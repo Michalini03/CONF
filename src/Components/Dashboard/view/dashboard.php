@@ -116,8 +116,8 @@ if (session_status() === PHP_SESSION_NONE) {
         
         <div class="search-container">
             <div class="input-group input-group-lg">
-                <input type="text" class="form-control form-control-dark" placeholder="Search articles..." aria-label="Search" aria-describedby="search-addon">
-                <button class="btn btn-success" type="button" id="search-addon">
+                <input id="search-text" type="text" class="form-control form-control-dark" placeholder="Search articles..." aria-label="Search" aria-describedby="search-addon">
+                <button class="btn btn-success" type="button" id="search-addon" onclick="submitSearch()">
                     <i class="bi bi-search"></i>
                 </button>
             </div>

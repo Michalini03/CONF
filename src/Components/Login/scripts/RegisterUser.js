@@ -69,7 +69,7 @@ function submitRegistration(event) {
                         }, 1000);
                   }
                   else {
-                        handleError([...response.message]);
+                        handleError([response.message]);
                   }
             },
             error: function(xhr, status, error) {

@@ -34,7 +34,7 @@ function loadArticlesForAssigning(reviewers, articles) {
       var $tbody = $('<tbody></tbody>');
 
       articles.forEach(article => {
-            var $row = $('<tr></tr>');
+            var $row = $(`<tr id="assign-row-${article.id}"></tr>`);
 
             $row.append(`<td>${article.id}</td>`);
             $row.append(`<td>${article.title}</td>`);         
@@ -184,7 +184,11 @@ function assignReviewer(articleID, reviewerID) {
         },
         success: function(response) {
             if (response.success) {
-                alert(response.message);
+                  alert(response.message);
+                  $(`#assign-row-${articleID}`).fadeOut(300, function() { 
+                        $(this).remove(); 
+                  });
+
             } else {
                 console.error('Error assigning reviewer:', response.message);
                 alert('Failed: ' + response.message);
