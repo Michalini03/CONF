@@ -32,7 +32,7 @@ async function drawArticles(isLogged = null) {
 function handlePaging(articleCount) {
       var maxPageCount = Math.min(articleCount, PAGING + 4);
 
-      $('#current-view-num').text(`${PAGING} - ${maxPageCount}`);
+      $('#current-view-num').text(`${Math.min(maxPageCount, PAGING)} - ${maxPageCount}`);
       $('#complete-view-num').text(articleCount);
 
       if(PAGING == 1) {

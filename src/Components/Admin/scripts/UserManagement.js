@@ -67,6 +67,7 @@ function displayData(data, sectionId = USER_SECTION_ID) {
         return;
     }
 
+    var $wrapper = $('<div class="table-responsive"></div>');
     var $table = $('<table class="table table-hover table-striped table-dark table-responsive"></table>');
     var $thead = $('<thead><tr><th>ID</th><th>Username</th><th>Access Rights</th><th></th></tr></thead>');
     var $tbody = $('<tbody></tbody>');
@@ -108,24 +109,21 @@ function displayData(data, sectionId = USER_SECTION_ID) {
 
     $table.append($thead);
     $table.append($tbody);
-    $section.append($table);
+    $wrapper.append($table)
+    $section.append($wrapper);
 }
 
 function deleteUser(userId) {
-    // TODO: MODAL
     if (!confirm('Are you sure you want to delete this user?')) {
         return; 
     }
 
     $.ajax({
         url: ADMIN_API_URL, 
-        // 1. Use POST for a destructive action
         type: 'POST',
         dataType: 'json',
         data: {
-            // 2. Specify the action you want the API to perform
             action: 'deleteUser', 
-            // 3. Send the 'user_id' so the server knows WHO to delete
             user_id: userId 
         },
         success: function(response) {

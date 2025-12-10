@@ -24,11 +24,12 @@ function loadArticlesForAssigning(reviewers, articles) {
             return;
       }
 
-      var reviewerOptionsHtml = '<option value="">-- Select Reviewer --</option>';
+      var reviewerOptionsHtml = '<option value="0">-- Select Reviewer --</option>';
       reviewers.forEach(reviewer => {
             reviewerOptionsHtml += `<option value="${reviewer.id}">${reviewer.username}</option>`;
       });
 
+      var $wrapper = $('<div class="table-responsive"></div>');
       var $table = $('<table class="table table-hover table-striped table-dark table-responsive"></table>');
       var $thead = $('<thead><tr><th>ID</th><th>Name</th><th>Description</th><th>Reviewer</th><th></th></tr></thead>');
       var $tbody = $('<tbody></tbody>');
@@ -55,6 +56,11 @@ function loadArticlesForAssigning(reviewers, articles) {
             var $button = $('<button type="submit" class="btn btn-primary">Assign</button>')
             $button.off('click').on('click', function () {
                   var reviewerID = $select.val();
+
+                  if(reviewerID == 0) {
+                        alert('Please, select valid reviewer!')
+                        return;
+                  }
                   assignReviewer(article.id, reviewerID);
             })
 
@@ -65,10 +71,10 @@ function loadArticlesForAssigning(reviewers, articles) {
             $tbody.append($row);
       });
 
-      // 4. Assemble the table
       $table.append($thead);
       $table.append($tbody);
-      $section.append($table);
+      $wrapper.append($table);
+      $section.append($wrapper);
 }
 
 function loadArticlesForApproving(reviewers, articles) {
@@ -80,6 +86,7 @@ function loadArticlesForApproving(reviewers, articles) {
             return;
       }
 
+      var $wrapper = $('<div class="table-responsive"></div>');
       var $table = $('<table class="table table-hover table-striped table-dark table-responsive"></table>');
       var $thead = $('<thead><tr><th>ID</th><th>Name</th><th>Description</th><th>Reviewer</th><th></th></tr></thead>');
       var $tbody = $('<tbody></tbody>');
@@ -107,7 +114,8 @@ function loadArticlesForApproving(reviewers, articles) {
 
       $table.append($thead);
       $table.append($tbody);
-      $section.append($table);
+      $wrapper.append($table);
+      $section.append($wrapper);
 }
 
 function showApproveModal(articleID, articleTitle, articleReview) {

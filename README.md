@@ -4,7 +4,6 @@ Conference system for Developer new
 
 # TODO:
 - Add more input fields and upgrade validation in registration
-- Delete AI comments
 - When submiting modal, be sure that modal disappears correctly + redraw page
 
 ### Acess Rights
